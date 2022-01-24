@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhuomo.seckill_demo.mapper.GoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.zhuomo.seckill_demo.pojo.Goods">
+        <id column="id" property="id"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_title" property="goodTitle"/>
+        <result column="goods_img" property="goodsImg"/>
+        <result column="goods_detail" property="goodsDetail"/>
+        <result column="goods_price" property="goodsPrice"/>
+        <result column="goods_stock" property="goodsStock"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, goods_name, good_title, goods_img, goods_detail, goods_price, goods_stock
+    </sql>
+
+    <select id="findGoodsVo" resultType="com.zhuomo.seckill_demo.vo.GoodsVo">
+        select t_goods.id,
+t_goods.goods_name,
+t_goods.goods_title,
+t_goods.goods_img,
+t_goods.goods_detail,
+t_goods.goods_price,
+t_goods.goods_stock,
+t_seckill_goods.seckill_price,
+t_seckill_goods.stock_count,
+t_seckill_goods.start_date,
+t_seckill_goods.end_date from t_goods  left join t_seckill_goods on t_goods.id = t_seckill_goods.goods_id
+    </select>
+<!--    <select id="findGoodsVo" resultType="com.zhuomo.seckill_demo.vo.GoodsVo">-->
+<!--        select t_goods.id,-->
+<!--t_goods.goods_name,-->
+<!--t_goods.goods_title,-->
+<!--t_goods.goods_img,-->
+<!--t_goods.goods_detail,-->
+<!--t_goods.goods_price,-->
+<!--t_goods.goods_stock from t_goods  left join t_seckill_goods on t_goods.id = t_seckill_goods.goods_id-->
+<!--    </select>-->
+    <select id="testUser" resultType="com.zhuomo.seckill_demo.pojo.User">
+        select * from t_user where id=#{id}
+    </select>
+    <!-- 根据商品id获取商品详情 -->
+    <select id="findGoodsVoByGoodsId" resultType="com.zhuomo.seckill_demo.vo.GoodsVo">
+        SELECT
+        g.id,
+        g.goods_name,
+        g.goods_title,
+        g.goods_img,
+        g.goods_detail,
+        g.goods_price,
+        g.goods_stock,
+        sg.seckill_price,
+        sg.stock_count,
+        sg.start_date,
+        sg.end_date
+        FROM
+        t_goods AS g
+        LEFT JOIN t_seckill_goods AS sg ON g.id = sg.goods_id
+        WHERE g.id = #{goodsId}
+</select>
+</mapper>
